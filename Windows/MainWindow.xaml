@@ -1,0 +1,1310 @@
+﻿<Window x:Class="JudicialTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JudicialTest"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Главное окно" Height="775" Width="1600" FontSize="16"  WindowState="Maximized" MinHeight="600" MinWidth="1280">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resourses/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="Resourses/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="Resourses/DataGridStyles.xaml"/>
+                <ResourceDictionary Source="Resourses/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="Resourses/ScrollViewerStyles.xaml"/>
+                <ResourceDictionary Source="Resourses/ExpanderStyles.xaml"/>
+                <ResourceDictionary Source="Resourses/ComboBoxStyles.xaml"/>
+                <ResourceDictionary Source="Resourses/BorderStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:PeriodMonthConverter x:Key="monthConverter"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Name="MainMenuForm" Visibility="Visible" Background="DarkSlateGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="8*"/>
+            <!--<ColumnDefinition Width="1*"/>-->
+        </Grid.ColumnDefinitions>
+
+        <!--<Grid Grid.Column="2">
+            <TextBox Grid.Row="0" Name="DEBUG" Style="{StaticResource TextBox_DEBUG.Style}"/>
+        </Grid>-->
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="1*"/>
+
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Name="Button_Houses" Content="Дома"  Command="{Binding HouseCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource Button_Menu.Style}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=HousesForm, Path=Visibility}" Value="Hidden">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color1}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=HousesForm, Path=Visibility}" Value="Visible">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color2}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Grid.Row="1" Name="Button_Apartments" Content="Помещения" Command="{Binding ApartmentCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource Button_Menu.Style}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=ApartmentsForm, Path=Visibility}" Value="Hidden">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color1}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=ApartmentsForm, Path=Visibility}" Value="Visible">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color2}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Grid.Row="2" Name="Button_Debtors" Content="Должники" Command="{Binding DebtorCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource Button_Menu.Style}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=DebtorsForm, Path=Visibility}" Value="Hidden">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color1}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=DebtorsForm, Path=Visibility}" Value="Visible">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color2}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Grid.Row="3" Name="Button_Extracts" Content="Выписки ЕГРН" Command="{Binding ExtractCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource Button_Menu.Style}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=ExtractsForm, Path=Visibility}" Value="Hidden">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color1}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=ExtractsForm, Path=Visibility}" Value="Visible">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color2}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Grid.Row="4" Name="Button_Arrears" IsEnabled="False" Content="Задолженности" Command="{Binding ArrearCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource Button_Menu.Style}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=ArrearsForm, Path=Visibility}" Value="Hidden">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color1}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=ArrearsForm, Path=Visibility}" Value="Visible">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color2}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="5">
+                <Button Content="Настройки" Command="{Binding SettingsCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource Button_Menu.Style}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=SettingsForm, Path=Visibility}" Value="Hidden">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color1}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=SettingsForm, Path=Visibility}" Value="Visible">
+                                    <Setter Property="Background" Value="{StaticResource Button_Menu.Color2}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+            <ScrollViewer Grid.Row="2" Visibility="Visible" Name="MenuScroll" Style="{StaticResource ScrollViewerBase.Style}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Row="0" Name="TB_SelectedHouse" Style="{StaticResource TextBox_Info.Style}"/>
+                    <TextBox Grid.Row="1" Name="TB_SelectedApartment" Style="{StaticResource TextBox_Info.Style}"/>
+                    <TextBox Grid.Row="2" Name="TB_SelectedDebtor" Style="{StaticResource TextBox_Info.Style}"/>
+                    <TextBox Grid.Row="3" Name="TB_SelectedArrear" Style="{StaticResource TextBox_Info.Style}"/>
+                </Grid>
+            </ScrollViewer>
+            <Button Grid.Row="3" Content="Сбросить фильтр" Command="{Binding WipeCommand}"  Style="{StaticResource Button_Menu.Style}"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid Name="HousesForm" Visibility="Hidden">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid Grid.Column="0"  Name="HousesTable"
+                          Style="{StaticResource EntitiesTable}"
+                          ItemsSource="{Binding AllHouses}"
+                          SelectedItem="{Binding Path=SelectedHouse, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Город" Binding="{Binding Path=City}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                            <DataGridTextColumn Header="Улица" Binding="{Binding Path=Street}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                            <DataGridTextColumn Header="Дом" Binding="{Binding Path=NumberHouse}" ElementStyle="{StaticResource DataGridCellStyle}"/>                            
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <ScrollViewer Grid.Column="1" Name="HouseProperties" DataContext="{Binding SelectedHouse}" Style="{StaticResource ScrollViewer_PropertiesEntity.Style}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="9*"/>
+                            </Grid.RowDefinitions>
+                            <Expander Grid.Row="0" Header="Адрес дома" Style="{StaticResource Expander_Expanded.Style}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_HouseIndex}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Индекс: " Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" x:Name="TB_HouseIndex" Text="{Binding Path=Index}" Style="{StaticResource TextBox_PropertiesEntity.Style}" />
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_HouseCity}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Город: " Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" x:Name="TB_HouseCity" Text="{Binding Path=City}" Style="{StaticResource TextBox_PropertiesEntity.Style}" />
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_HouseStreet}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Улица: " Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" x:Name="TB_HouseStreet" Text="{Binding Path=Street}" Style="{StaticResource TextBox_PropertiesEntity.Style}" />
+                                    </Grid>
+                                    <Grid Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_HouseNumber}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Дом: " Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" x:Name="TB_HouseNumber" Text="{Binding Path=NumberHouse}" Style="{StaticResource TextBox_PropertiesEntity.Style}" />
+                                    </Grid>
+                                    <Grid Grid.Row="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_HouseCorpus}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Корпус: " Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" x:Name="TB_HouseCorpus" Text="{Binding Path=Corpus}" Style="{StaticResource TextBox_PropertiesEntity.Style}" />
+                                    </Grid>
+                                </Grid>
+                            </Expander>                            
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Name="Button_Add_House" Command="{Binding AddCommand}" Style="{StaticResource Button_Add.Style}"/>
+                    <Button Grid.Column="1" Name="Button_Save_House" Command="{Binding SaveCommand}" Style="{StaticResource Button_Save.Style}"/>
+                    <Button Grid.Column="2" Name="Button_Remove_House" Command="{Binding RemoveCommand}" Style="{StaticResource Button_Remove.Style}"/>
+                    <Button Grid.Column="3" Name="Button_Pick_House" Command="{Binding PickCommand}" Style="{StaticResource Button_Pick.Style}"/>
+                </Grid>
+            </Grid>
+
+            <Grid Name="ApartmentsForm" Visibility="Hidden">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <DataGrid Name="ApartmentsTable"
+                              Style="{StaticResource EntitiesTable}"
+                              ItemsSource="{Binding AllApartments}"
+                              SelectedItem="{Binding Path=SelectedApartment, Mode=TwoWay}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding Path=Type}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                <DataGridTextColumn Header="№" Binding="{Binding Path=EstateNumber}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                    <ScrollViewer Grid.Column="1" Name="ApartmentProperties" DataContext="{Binding SelectedApartment}" Style="{StaticResource ScrollViewer_PropertiesEntity.Style}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="8*"/>
+                            </Grid.RowDefinitions>
+
+                            <Expander Grid.Row="0" Header="Выписки ЕГРН на объект недвижимости" Style="{StaticResource Expander_Expanded.Style}">
+                                <DataGrid IsEnabled="False" Name="ApartmentExtractsTable"
+                              Style="{StaticResource EntitiesTable}"                             
+                              ItemsSource="{Binding Extracts}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Фамилия владельца" Binding="{Binding Path=Debtor.LastName}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                        <DataGridTextColumn Header="Имя владельца" Binding="{Binding Path=Debtor.FirstName}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                        <DataGridTextColumn Header="Отчество владельца" Binding="{Binding Path=Debtor.MiddleName}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                        <DataGridTextColumn Header="№ выписки" Binding="{Binding Path=NumberExtractEGRN}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Expander>
+
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Height="{Binding ActualHeight, ElementName=CB_ApartmentType}" Style="{StaticResource Border_OneString.Style}">
+                                    <TextBlock Grid.Column="0" Text="Тип имущества" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                </Border>
+                                <ComboBox Grid.Column="1" Name="CB_ApartmentType" Text="{Binding Path=Type}" Style="{StaticResource ComboBox_PropertiesEntity.Style}"/>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Height="{Binding ActualHeight, ElementName=TB_ApartmentNumber}" Style="{StaticResource Border_OneString.Style}">
+                                    <TextBlock Grid.Column="0" Text="Номер имущества" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                </Border>
+                                <TextBox Grid.Column="1" Name="TB_ApartmentNumber" Text="{Binding Path=EstateNumber}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                            </Grid>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Name="Button_Add_Apartment" Command="{Binding AddCommand}" Style="{StaticResource Button_Add.Style}"/>
+                    <Button Grid.Column="1" Name="Button_Save_Apartment" Command="{Binding SaveCommand}" Style="{StaticResource Button_Save.Style}" />
+                    <Button Grid.Column="2" Name="Button_Remove_Apartment" Command="{Binding RemoveCommand}" Style="{StaticResource Button_Remove.Style}" />
+                    <Button Grid.Column="3" Name="Button_Pick_Apartment" Command="{Binding PickCommand}" Style="{StaticResource Button_Pick.Style}"/>
+                </Grid>
+            </Grid>
+
+            <Grid Name="DebtorsForm" Visibility="Hidden">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <DataGrid Name="DebtorsTable"
+                              Style="{StaticResource EntitiesTable}"                             
+                              ItemsSource="{Binding AllDebtors}"
+                              SelectedItem="{Binding Path=SelectedDebtor, Mode=TwoWay}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=LastName}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                <DataGridTextColumn Header="Имя" Binding="{Binding Path=FirstName}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                <DataGridTextColumn Header="Отчество" Binding="{Binding Path=MiddleName}" ElementStyle="{StaticResource DataGridCellStyle}"/>                                
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                    <ScrollViewer Grid.Column="1" Name="DebtorProperties" DataContext="{Binding SelectedDebtor}" Style="{StaticResource ScrollViewer_PropertiesEntity.Style}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="15*"/>
+                            </Grid.RowDefinitions>
+                            <Expander Grid.Row="0" Header="Выписки ЕГРН у должника" Style="{StaticResource Expander_Expanded.Style}">
+                                <DataGrid IsEnabled="False" Name="DebtorExtractsTable"
+                                    Style="{StaticResource EntitiesTable}"                             
+                                    ItemsSource="{Binding Extracts}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№ имущества" Binding="{Binding Path=Apartment.EstateNumber}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                        <DataGridTextColumn Header="№ выписки" Binding="{Binding Path=NumberExtractEGRN}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Expander>
+
+                            <Expander Grid.Row="1" Header="Основная информация" Style="{StaticResource Expander_Expanded.Style}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorLastName}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Фамилия :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorLastName" Text="{Binding Path=LastName}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorFirstName}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Имя :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorFirstName" Text="{Binding Path=FirstName}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorMiddleName}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Отчество :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorMiddleName" Text="{Binding Path=MiddleName}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=CB_GenderType}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Пол :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <ComboBox Grid.Column="1" Name="CB_GenderType" Text="{Binding Path=Gender}" Style="{StaticResource ComboBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorBirthDate}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Дата рождения :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorBirthDate" Text="{Binding Path=BirthDate}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+
+                                    <Grid Grid.Row="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorBirthPlace}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Место рождения :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorBirthPlace" Text="{Binding Path=BirthPlace}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                </Grid>
+                            </Expander>
+                            <Expander Grid.Row="2" Header="Паспортные данные" Style="{StaticResource Expander_Expanded.Style}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorPassportSerial}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Серия :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorPassportSerial" Text="{Binding Path=PassportSerial}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorPassportNumber}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Номер :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorPassportNumber" Text="{Binding Path=PassportNumber}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorPassportDate}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Дата выдачи :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorPassportDate" Text="{Binding Path=PassportDate}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorPassportIssueBy}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Кем выдан :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorPassportIssueBy" Text="{Binding Path=PassportIssueBy}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                </Grid>
+                            </Expander>
+                            <Expander Grid.Row="3" Header="Контактные данные" Style="{StaticResource Expander_Expanded.Style}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorPhone}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Номер телефона :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorPhone" Text="{Binding Path=Phone}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorEmail}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Электронная почта :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorEmail" Text="{Binding Path=Email}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+
+                                    <Expander Grid.Row="2" Header="Адрес места жительства" Style="{StaticResource Expander_Hidden.Style}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                            </Grid.RowDefinitions>
+                                            
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorLocationAddress_Index}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Индекс :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorLocationAddress_Index" Text="{Binding Path=LocationAddress.Index}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorLocationAddress_City}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Город :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorLocationAddress_City" Text="{Binding Path=LocationAddress.City}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorLocationAddress_Street}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Улица :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorLocationAddress_Street" Text="{Binding Path=LocationAddress.Street}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="3">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorLocationAddress_NumberHouse}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Дом :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorLocationAddress_NumberHouse" Text="{Binding Path=LocationAddress.NumberHouse}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorLocationAddress_Corpus}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Корпус :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorLocationAddress_Corpus" Text="{Binding Path=LocationAddress.Corpus}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorLocationAddress_NumberApartment}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Квартира :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorLocationAddress_NumberApartment" Text="{Binding Path=LocationAddress.NumberApartment}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>                                            
+                                        </Grid>
+                                    </Expander>
+                                    <Expander Grid.Row="3" Header="Адрес регистрации" Style="{StaticResource Expander_Hidden.Style}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorRegisterAddress_Index}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Индекс :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorRegisterAddress_Index" Text="{Binding Path=RegisterAddress.Index}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorRegisterAddress_City}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Город :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorRegisterAddress_City" Text="{Binding Path=RegisterAddress.City}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorRegisterAddress_Street}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Улица :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorRegisterAddress_Street" Text="{Binding Path=RegisterAddress.Street}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="3">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorRegisterAddress_NumberHouse}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Дом :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorRegisterAddress_NumberHouse" Text="{Binding Path=RegisterAddress.NumberHouse}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorRegisterAddress_Corpus}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Корпус :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorRegisterAddress_Corpus" Text="{Binding Path=RegisterAddress.Corpus}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorRegisterAddress_NumberApartment}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Квартира :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorRegisterAddress_NumberApartment" Text="{Binding Path=RegisterAddress.NumberApartment}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Expander>
+                                    <Expander Grid.Row="4" Header="Информация о судебном участке" Style="{StaticResource Expander_Hidden.Style}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="1*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorSectorNumber}" Style="{StaticResource Border_ThreeString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Номер судебного участка :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" Name="TB_DebtorSectorNumber" Text="{Binding Path=SectorNumber}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorSectorAddress_Index}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Индекс :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorSectorAddress_Index" Text="{Binding Path=SectorAddress.Index}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorSectorAddress_City}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Город :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorSectorAddress_City" Text="{Binding Path=SectorAddress.City}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="3">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorSectorAddress_Street}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Улица :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorSectorAddress_Street" Text="{Binding Path=SectorAddress.Street}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorSectorAddress_NumberHouse}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Дом :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorSectorAddress_NumberHouse" Text="{Binding Path=SectorAddress.NumberHouse}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorSectorAddress_Corpus}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Корпус :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorSectorAddress_Corpus" Text="{Binding Path=SectorAddress.Corpus}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                            <Grid Grid.Row="6">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Border Height="{Binding ActualHeight, ElementName=TB_DebtorSectorAddress_NumberApartment}" Style="{StaticResource Border_OneString.Style}">
+                                                    <TextBlock Grid.Column="0" Text="Помещение :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                                </Border>
+                                                <TextBox Grid.Column="1" x:Name="TB_DebtorSectorAddress_NumberApartment" Text="{Binding Path=SectorAddress.NumberApartment}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Expander>
+                                </Grid>
+                            </Expander>
+                            <Expander Grid.Row="4" Header="Дополнительная информация" Style="{StaticResource Expander_Hidden.Style}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorSNILS}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="СНИЛС :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorSNILS" Text="{Binding Path=SNILS}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorINN}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="ИНН :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorINN" Text="{Binding Path=INN}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorSeriesDriverLicense}" Style="{StaticResource Border_TwoString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Серия водительского удостоверения :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorSeriesDriverLicense" Text="{Binding Path=SeriesDriverLicense}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorNumberDriverLicense}" Style="{StaticResource Border_TwoString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Номер водительского удостоверения :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorNumberDriverLicense" Text="{Binding Path=NumberDriverLicense}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorSeriesSTS}" Style="{StaticResource Border_TwoString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Серия свидетельства о регистрации ТС :"  Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorSeriesSTS" Text="{Binding Path=SeriesSTS}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_DebtorNumberSTS}" Style="{StaticResource Border_TwoString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Номер свидетельства о регистрации ТС :"  Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_DebtorNumberSTS" Text="{Binding Path=NumberSTS}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                </Grid>
+                            </Expander>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Name="Button_Add_Debtor" Command="{Binding AddCommand}" Style="{StaticResource Button_Add.Style}"/>
+                    <Button Grid.Column="1" Name="Button_Save_Debtor" Command="{Binding SaveCommand}" Style="{StaticResource Button_Save.Style}"/>
+                    <Button Grid.Column="2" Name="Button_Remove_Debtor" Command="{Binding RemoveCommand}" Style="{StaticResource Button_Remove.Style}"/>
+                    <Grid Grid.Column="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <ComboBox Grid.Row="0" Name="CB_ListApartment" DisplayMemberPath="EstateNumber"
+                                  SelectedItem="{Binding Path=SelectedApartment, Mode=TwoWay}" Style="{StaticResource ComboBox_PropertiesEntity.Style}"/>
+                        <Button Grid.Row="1" Name="Button_CreateLink_ApartDebtor" Command="{Binding CreateLink_ApartDebtorCommand}" Style="{StaticResource Button_CreateLink.Style}"/>
+                    </Grid>
+                    <Button Grid.Column="4" Name="Button_Pick_Debtor" Command="{Binding PickCommand}" Style="{StaticResource Button_Pick.Style}"/>
+                </Grid>
+            </Grid>
+
+            <Grid Name="ArrearsForm" Visibility="Hidden">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <DataGrid Name="ArrearsTable"   
+                              Style="{StaticResource EntitiesTable}"                              
+                              ItemsSource="{Binding AllArrears}"
+                              SelectedItem="{Binding Path=SelectedArrear, Mode=TwoWay}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Месяц начала периода" Binding="{Binding Path=StartDate.Month}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                <DataGridTextColumn Header="Месяц конца периода" Binding="{Binding Path=EndDate.Month}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                    <ScrollViewer Grid.Column="1" Name="ArrearProperties" DataContext="{Binding SelectedArrear}" Style="{StaticResource ScrollViewer_PropertiesEntity.Style}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="11*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+                                <Expander Grid.Row="0" Header="Основная информация" Style="{StaticResource Expander_Expanded.Style}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Grid.Row="0" Text="Начало периода задолженности" TextAlignment="Center" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ComboBox Grid.Column="0" Name="CB_ArrearStartMonth" Text="{Binding Path=StartDate.Month, Converter={StaticResource monthConverter}}" 
+                                                        Style="{StaticResource ComboBox_PropertiesEntity.Style}" />
+                                            <ComboBox Grid.Column="1" Name="CB_ArrearStartYear" Text="{Binding Path=StartDate.Year}" Style="{StaticResource ComboBox_PropertiesEntity.Style}"
+                                                      SelectionChanged="CB_ArrearYear_SelectionChanged"/>
+                                        </Grid>
+
+                                        <TextBlock Grid.Row="2" Text="Конец периода задолженности" TextAlignment="Center" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        <Grid Grid.Row="3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ComboBox Grid.Column="0" Name="CB_ArrearEndMonth" Text="{Binding Path=EndDate.Month, Converter={StaticResource monthConverter}}" 
+                                                       Style="{StaticResource ComboBox_PropertiesEntity.Style}"/>
+                                            <ComboBox Grid.Column="1" Name="CB_ArrearEndYear" Text="{Binding Path=EndDate.Year}" Style="{StaticResource ComboBox_PropertiesEntity.Style}" 
+                                                      SelectionChanged="CB_ArrearYear_SelectionChanged"/>
+                                        </Grid>
+
+                                        <Grid Grid.Row="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Border Height="{Binding ActualHeight, ElementName=TB_ArrearDutyPeriod}" Style="{StaticResource Border_OneString.Style}">
+                                                <TextBlock Grid.Column="0" Text="Задолженность за период :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                            </Border>
+                                            <TextBox Grid.Column="1" Name="TB_ArrearDutyPeriod" Text="{Binding Path=DutyPeriod}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                        </Grid>
+                                        <Grid Grid.Row="5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Border Height="{Binding ActualHeight, ElementName=TB_ArrearDutyPeny}" Style="{StaticResource Border_OneString.Style}">
+                                                <TextBlock Grid.Column="0" Text="Пени :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                            </Border>
+                                            <TextBox Grid.Column="1" Name="TB_ArrearDutyPeny" Text="{Binding Path=DutyPeny}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                        </Grid>
+                                        <Grid Grid.Row="6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Border Height="{Binding ActualHeight, ElementName=TB_ArrearDutyGovernment}" Style="{StaticResource Border_OneString.Style}">
+                                                <TextBlock Grid.Column="0" Text="Госпошлина :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                            </Border>
+                                            <TextBox Grid.Column="1" Name="TB_ArrearDutyGovernment" Text="{Binding Path=DutyGovernment}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                        </Grid>
+                                        <Grid Grid.Row="7">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Border Height="{Binding ActualHeight, ElementName=TB_ArrearDutyDelegateServices}" Style="{StaticResource Border_OneString.Style}">
+                                                <TextBlock Grid.Column="0" Text="Услуги представителя :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                            </Border>
+                                            <TextBox Grid.Column="1" Name="TB_ArrearDutyDelegateServices" Text="{Binding Path=DutyDelegateServices}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                        </Grid>
+                                    </Grid>
+                                </Expander>
+
+                                <Grid Grid.Row="9">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Height="{Binding ActualHeight, ElementName=CB_LifeCycleArrear}" Style="{StaticResource Border_OneString.Style}">
+                                        <TextBlock Grid.Column="0" Text="Этап задолженности :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                    </Border>
+                                    <ComboBox Grid.Column="1" Name="CB_LifeCycleArrear" Text="{Binding Path=LifeCycle}" Style="{StaticResource ComboBox_PropertiesEntity.Style}"/>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Name="Button_Add_Arrear" Command="{Binding AddCommand}" Style="{StaticResource Button_Add.Style}"/>
+                    <Button Grid.Column="1" Name="Button_Save_Arrear" Command="{Binding SaveCommand}" Style="{StaticResource Button_Save.Style}"/>
+                    <Button Grid.Column="2" Name="Button_Remove_Arrear" Command="{Binding RemoveCommand}" Style="{StaticResource Button_Remove.Style}"/>
+                    <Button Grid.Column="3" Name="Button_Pick_Arrear" Command="{Binding PickCommand}" Style="{StaticResource Button_Pick.Style}"/>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Name="Button_CreateSP" Visibility="Hidden" Content="Создать СП" Command="{Binding CreateSPCommand}" Style="{StaticResource Button_Shablon.Style}"/>
+                    <Button Grid.Column="1" Name="Button_CreateIP" Visibility="Hidden" Content="Создать ИП" Command="{Binding CreateIPCommand}" Style="{StaticResource Button_Shablon.Style}"/>
+
+                    <Grid Grid.Column="3" Name="ProgressGrid" Visibility="Hidden">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <ProgressBar Name="ProgressInfo" Minimum="0" Maximum="100" Margin="5"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Grid Name="ExtractsForm" Visibility="Hidden">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <DataGrid Name="ExtractsTable"
+                              Style="{StaticResource EntitiesTable}"
+                              ItemsSource="{Binding AllExtracts}"
+                              SelectedItem="{Binding Path=SelectedExtract, Mode=TwoWay}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="№ имущества" Binding="{Binding Path=Apartment.EstateNumber}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                <DataGridTextColumn Header="Фамилия владельца" Binding="{Binding Path=Debtor.LastName}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                                <DataGridTextColumn Header="Имя владельца" Binding="{Binding Path=Debtor.FirstName}" ElementStyle="{StaticResource DataGridCellStyle}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                    <ScrollViewer Grid.Column="1" Name="ExtractProperties" DataContext="{Binding SelectedExtract}" Style="{StaticResource ScrollViewerBase.Style}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="10*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Height="{Binding ActualHeight, ElementName=TB_NumberExtractEGRN}" Style="{StaticResource Border_OneString.Style}">
+                                    <TextBlock Grid.Column="0" Text="Номер выписки :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                </Border>
+                                <TextBox Grid.Column="1" Name="TB_NumberExtractEGRN" Text="{Binding Path=NumberExtractEGRN}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                            </Grid>
+                            <Expander Grid.Row="1" Header="Данные о выписке" Style="{StaticResource Expander_Expanded.Style}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_ExtractNumber}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Номер имущества :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_ExtractNumber" Text="{Binding Path=Apartment.EstateNumber}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_LastNameOwner}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Фамилия владельца :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_LastNameOwner" Text="{Binding Path=Debtor.LastName}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_FirstNameOwner}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Имя владельца :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_FirstNameOwner" Text="{Binding Path=Debtor.FirstName}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Height="{Binding ActualHeight, ElementName=TB_MiddleNameOwner}" Style="{StaticResource Border_OneString.Style}">
+                                            <TextBlock Grid.Column="0" Text="Отчество владельца :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                        </Border>
+                                        <TextBox Grid.Column="1" Name="TB_MiddleNameOwner" Text="{Binding Path=Debtor.MiddleName}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    </Grid>
+                                </Grid>
+                            </Expander>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Name="Button_Add_Extract" Command="{Binding AddCommand}" Style="{StaticResource Button_Add.Style}"/>
+                    <Button Grid.Column="1" Name="Button_Save_Extract" Command="{Binding SaveCommand}" Style="{StaticResource Button_Save.Style}" />
+                    <Button Grid.Column="2" Name="Button_Remove_Extract" Command="{Binding RemoveCommand}" Style="{StaticResource Button_Remove.Style}"/>
+                </Grid>
+            </Grid>
+
+            <Grid Name="SettingsForm" Visibility="Hidden">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <ScrollViewer Style="{StaticResource ScrollViewerBase.Style}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="11*"/>
+                        </Grid.RowDefinitions>
+                        <Expander Grid.Row="0" Header="Настройки путей" Style="{StaticResource Expander_Expanded.Style}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="8*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Height="{Binding ActualHeight, ElementName=NameFileShablonSP}" Style="{StaticResource Border_Settings.Style}">
+                                        <TextBlock Grid.Column="0" Text="Шаблон (судебный приказ) :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                    </Border>
+                                    <TextBox Grid.Column="1" Name="NameFileShablonSP" Text="{Binding PathFileShablonSP}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    <Button Grid.Column="2" Name="ButtonPickShablonSP" Style="{StaticResource Button_Settings_Popup.Style}" Command="{Binding PickShablonSPCommand}"/>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="8*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Height="{Binding ActualHeight, ElementName=NameFolderResultSP}" Style="{StaticResource Border_Settings.Style}">
+                                        <TextBlock Grid.Column="0" Text="Папка для хранения заявлений (судебный приказ) :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                    </Border>
+                                    <TextBox Grid.Column="1" Name="NameFolderResultSP" Text="{Binding PathFolderResultSP}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    <Button Grid.Column="2" Name="ButtonPickFolderResultSP" Style="{StaticResource Button_Settings_Popup.Style}" Command="{Binding PickFolderResultSPCommand}"/>
+                                </Grid>
+                                <Grid Grid.Row="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="8*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Height="{Binding ActualHeight, ElementName=NameFileShablonIP}" Style="{StaticResource Border_Settings.Style}">
+                                        <TextBlock Grid.Column="0" Text="Шаблон (исполнительное производство) :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                    </Border>
+                                    <TextBox Grid.Column="1" Name="NameFileShablonIP" Text="{Binding PathFileShablonIP}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    <Button Grid.Column="2" Name="ButtonPickShablonIP" Style="{StaticResource Button_Settings_Popup.Style}" Command="{Binding PickShablonIPCommand}"/>
+                                </Grid>
+                                <Grid Grid.Row="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="8*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Height="{Binding ActualHeight, ElementName=NameFolderResultIP}" Style="{StaticResource Border_Settings.Style}">
+                                        <TextBlock Grid.Column="0" Text="Папка для хранения заявлений (исполнительное производство) :" Style="{StaticResource TextBlock_PropertiesEntity.Style}"/>
+                                    </Border>
+                                    <TextBox Grid.Column="1" Name="NameFolderResultIP" Text="{Binding PathFolderResultIP}" Style="{StaticResource TextBox_PropertiesEntity.Style}"/>
+                                    <Button Grid.Column="2" Name="ButtonPickFolderResultIP" Style="{StaticResource Button_Settings_Popup.Style}" Command="{Binding PickFolderResultIPCommand}"/>
+                                </Grid>
+                            </Grid>
+                        </Expander>
+                    </Grid>
+                </ScrollViewer>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="1" Name="ButtonSave_Settings" Style="{StaticResource Button_Save.Style}" Command="{Binding SavePathsCommand}"/>
+                    <Button Grid.Column="2" Name="ButtonReturn_Settings" Content="Откатить изменения" 
+                            Style="{StaticResource Button_Remove.Style}" Command="{Binding ReturnPathsCommand}"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
